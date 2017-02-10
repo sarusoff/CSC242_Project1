@@ -1,21 +1,27 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
-	private int size;
-	private char[][] gameboard;
+	private static int size;
+	private static char[][] gameboard;
 	
 	public Board(int n){
 		size = n;
 		gameboard= new char[n][n];
 	}
 	
-	public boolean isSquareEmpty(int a, int b){
+	public static boolean isSquareEmpty(int a, int b){
 		return gameboard[a][b] == Character.MIN_VALUE;
 	}
 	
-	public void move(int x, int y, char type){
+	public static void move(int x, int y, char type){
 		gameboard[x][y] = type;	
 	}
-	
-	public boolean isBoardFull(){
+	public static void voidMove(int x, int y){
+		gameboard[x][y]=Character.MIN_VALUE;
+		
+	}
+	public static boolean isBoardFull(){
 		for (int i=0;i<size;i++){
 			for (int j=0;j<size;j++){
 				if (gameboard[i][j] == Character.MIN_VALUE){
@@ -27,7 +33,7 @@ public class Board {
 	}
 
 	/* returns x, y, or null, for x winning, y winning, or nobody winning*/
-	public char wonGame() {
+	public static char wonGame() {
 		char p;
 		
 		p = CheckV();
@@ -47,7 +53,7 @@ public class Board {
 		return Character.MIN_VALUE;		
 	}
 
-	public char CheckAnswer(int x,int y, int x1, int y1){	 
+	public static char CheckAnswer(int x,int y, int x1, int y1){	 
 		char p1 = gameboard[x][y];
 		if (p1==Character.MIN_VALUE){
 			return Character.MIN_VALUE;
@@ -62,7 +68,7 @@ public class Board {
 		return p1;
 	}
 	
-	public char CheckH(){
+	public static char CheckH(){
 		for (int i=0; i < size; i++) {
 			char p = CheckAnswer(i,0,0,1);
 			if (p != Character.MIN_VALUE) {
@@ -72,7 +78,7 @@ public class Board {
 		return Character.MIN_VALUE;
 	}
 	
-	public char CheckV(){
+	public static char CheckV(){
 		for(int i = 0; i<size;i++){
 			char p = CheckAnswer(0,i,1,0);
 			if (p!=Character.MIN_VALUE){
@@ -81,7 +87,7 @@ public class Board {
 		}	return Character.MIN_VALUE;
 	}
 	
-	public char CheckD(){
+	public static char CheckD(){
 		char p = CheckAnswer(0, 0, 1, 1);
 		if (p != Character.MIN_VALUE) {
 			return p;
@@ -125,18 +131,35 @@ public class Board {
 		}
 		System.out.println();
 	}
+	public int returnMin(List<Integer> list){
+		int min= Integer.MAX_VALUE;
+		for(int i=0; i<list.size();++i){
+			if(list.get(i)<min){
+				min=list.get(i);
+			}
+		}
+		return min;
+	}
+	public static List<int[]> PossibleMoves(){
+		List<int[]> PossibleMoves = new ArrayList<int[]>();
+		for(int p =0; p<3;++p){
+			for(int r=0; r<3;++r){
+				if(isSquareEmpty(p, r)==true){
+					PossibleMoves.add(new int[]{p,r});
+				}
+			}
+		}
+		
+		return PossibleMoves;
+	}
 	
-//	public List<Move> MovesPossible(Player p3, Board b){
-//	List<Move>AllMoves = new ArrayList<Move>();
-//	for(int t=0;t<size;t++){
-//		for(int u=0;u<size;u++){
-//			if(isEmpty(t,u)==true){
-//				AllMoves.add(new Move(b,t,u,p3));
-//				
-//			}
-//		}
-//	}
-//	return AllMoves;
-//}
+	public int returnMax(List<Integer> list){
+		int max= Integer.MIN_VALUE;
+		for(int i=0; i<list.size();++i){
+			if(list.get(i)>max){
+				max = list.get(i);
+			}
+		}
+		return max;
+	}
 }
-
