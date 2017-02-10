@@ -1,27 +1,20 @@
-//
-//public class State {
-//	
-//	Board board;
-//	Player player;
-//	Integer value = null;
-//	
-//	public State(Board board, Player player){
-//		this.board=board;
-//		this.player=player;
-//	}
-//	
-//	protected int utiliy(State s){
-//		Player winner = board.CheckWinner();
-//		if(winner==null){
-//			return 0;
-//		}
-//		else if(winner.equals(human)){
-//			return -10000;
-//		}
-//		else{
-//			return 10000;
-//		}
-//		
-//	}
-//	
-//}
+public class State implements Comparable<State> {
+	
+	char[][]StateofBoard;
+	char player;
+	Integer value = null;
+	
+	public State(char[][] StateofBoard, char player){
+		this.StateofBoard=StateofBoard;
+		this.player=player;
+	}
+	
+	protected void setUtiliy(int s){
+			value=s;
+	}
+
+	@Override
+	public int compareTo(State o) {
+		return Integer.compare(this.value, o.value);
+	}
+}
