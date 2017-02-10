@@ -1,10 +1,12 @@
+
+import java.util.List;
 import java.util.Scanner;
 
 public class PlayGame {
 	private Player player;
 	private CPU cpu;
 	private Scanner scanner;
-	private Board board;
+	private static Board board;
 	
 	public PlayGame() {
 		board = new Board(3); // takes in a parameter for dimension of the board
@@ -50,6 +52,7 @@ public class PlayGame {
 		if (player.getType() == type) {
 			playerMove();
 		} else {
+			
 			cpuMove();
 		}
 	}
@@ -72,12 +75,18 @@ public class PlayGame {
 		}
 	}
 
-	private void cpuMove() {
-		System.out.println("The CPU moves as " + player.getType());
+	private void cpuMove() {/*
+		List<int[]> l1 = Board.PossibleMoves();
+		System.out.println(l1.toString());
+		System.out.println("The CPU moves as " + cpu.getType());
 		cpu.chooseMove(board);	
+	}*/
+		System.out.println("The CPU moves as " + cpu.getType());
+		cpu.TestMini(board,cpu,player);
 	}
+		
 	
-	private boolean isGameDone() {
+	static boolean isGameDone() {
 		char winner;
 		if (board.isBoardFull()){
 			System.out.println("It's a tie!");
