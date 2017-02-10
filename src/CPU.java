@@ -21,6 +21,13 @@ public class CPU {
 		}
 	}
 	
+	public void TestMini(Board board, CPU cpu, Player player){
+		int [] test = MiniMax.minimax(1,2,type,board,cpu,player);
+		System.out.println("CPU chooses the move: ["+test[1]+" " + test[2]+")");
+
+		board.move(test[1], test[2], type);
+	}
+	
 	public char getType() {
 		return type;
 	}
