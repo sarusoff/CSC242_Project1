@@ -29,7 +29,7 @@ public class CPU {
 		char winner = s.wonGame(); // x, y, or Character.MIN_VALUE
 		if (winner == cpuType) {
 			bestA.util = -1;
-		} else if (winner == Game.alternatePlayer(player)) {
+		} else if (winner == Game.alternatePlayer(cpuType)) {
 			bestA.util = 1;
 		} else if (s.isTie()) {
 			bestA.util = 0;
@@ -41,7 +41,7 @@ public class CPU {
 				
 				// If CPU's move, minimize util, if Human's move, maximize util
 				if ((player == cpuType && currentA.util < bestA.util) 
-						|| currentA.util > bestA.util && currentA.util > bestA.util) { 
+						|| (player != cpuType && currentA.util > bestA.util)) { 
 					bestA = new Action(a.row,a.col,currentA.util);
 				}
 				s.move(a.row, a.col, Character.MIN_VALUE); // undo the move from the board
