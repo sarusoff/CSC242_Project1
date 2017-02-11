@@ -1,7 +1,5 @@
-import java.util.List;
-
 public class CPU {
-	private char cpuType;
+	public char cpuType;
 	public int visited = 0;
 	
 	public CPU(char cpuType) {
@@ -19,65 +17,38 @@ public class CPU {
 //			}
 //		}
 //	}
-	
-	public Action search(List<Action> a, State s){		
-		int [] move = minimax(s,a,cpuType);
-		return new Action(move[1],move[2]);
-	}
-	
-	
+
 	/*
-	 -minimax returns an int array of {bestUtility, row, col}
 	 -This is a recursive depth first search algorithm
 	 */
-	private int[] minimax(State s, List<Action> actions, char player){
-
-		// set bestUtility the the worst starting place, so that the first move will be the new best
-		int bestUtility = (player == cpuType) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-		int row = -999;
-		int col = -999;
-		char winner = s.wonGame(); // x, y, or Character.MIN_VALUE
+	public Action minimax(State s, char player){
+		int initialUtility = (player == cpuType) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+		Action bestA = new Action(-999,-999,initialUtility);
 		
+		/*  Checking terminal states */
+		char winner = s.wonGame(); // x, y, or Character.MIN_VALUE
 		if (winner == cpuType) {
-			bestUtility = -1;
+			bestA.util = -1;
 		} else if (winner == Game.alternatePlayer(player)) {
-			bestUtility = 1;
+			bestA.util = 1;
 		} else if (s.isTie()) {
-			bestUtility = 0;
-		} else {			
-			for (Action a : actions) {
+			bestA.util = 0;
+		}
+		else {	/* Not at a terminal state yet */	
+			for (Action a : s.applicableActions()) {
+				s.move(a.row, a.col, player); // make this move on the board
+				Action currentA = minimax(s,Game.alternatePlayer(player));
 				
-				// make this move on the board (going to remove it from the board afterwards)
-				s.move(a.getRow(), a.getCol(), player);
-				
-				// CPU's move, so trying to minimize utility
-				if (player == cpuType) { 
-					int currentUtility = minimax(s,s.applicableActions(),Game.alternatePlayer(player))[0];
-					if (currentUtility < bestUtility) {
-						bestUtility = currentUtility;
-						row = a.getRow();
-						col = a.getCol();
-					}
-				} 
-				else { 	// Human's move, so trying to maximize utility
-					int currentUtility = minimax(s,s.applicableActions(),Game.alternatePlayer(player))[0];
-					if (currentUtility > bestUtility) {
-						bestUtility = currentUtility;
-						row = a.getRow();
-						col = a.getCol();
-					}
+				// If CPU's move, minimize util, if Human's move, maximize util
+				if ((player == cpuType && currentA.util < bestA.util) 
+						|| currentA.util > bestA.util && currentA.util > bestA.util) { 
+					bestA = new Action(a.row,a.col,currentA.util);
 				}
-				
-				// undo the move from that state in order to perform the next iteration in the for loop
-				s.move(a.getRow(), a.getCol(), Character.MIN_VALUE);
+				s.move(a.row, a.col, Character.MIN_VALUE); // undo the move from the board
 			}			
 		}
-		
 		visited++;
-		return new int[] {bestUtility,row,col};
+		return bestA;
 	}
-	
-	public char getCPUType() {
-		return cpuType;
-	}
+
 }

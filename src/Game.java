@@ -1,5 +1,4 @@
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -18,24 +17,23 @@ public class Game {
 		State s = getInitialState();
 		
 		while (!isGoalState(s)) {			
-			Action a;
+			Action action;
 			if (s.getTurn() == player.getPlayerType()) { // get move from human
-				a = playerMove(s);
+				action = playerMove(s);
 			} else { 									// have AI pick move
 				cpu.visited = 0;
-				a = pick(s.applicableActions(),s);		
+				action = pick(s);		
 				System.err.println("Number of visits in minimax(): " + cpu.visited);
 
 			}
-			s = result(s,a);
-
+			s = result(s,action);
 		}	
 	}
 
 	// returns the state reached after performing action a in state s
 	private State result(State s, Action a) {
-		System.err.println(s.getTurn() + " chooses the move: ["+a.getRow()+" " + a.getCol()+"]");
-		s.move(a.getRow(), a.getCol(), s.getTurn());
+		System.err.println(s.getTurn() + " chooses the move: ["+a.row+" " + a.col+"]");
+		s.move(a.row, a.col, s.getTurn());
 		s.drawBoard();
 		return new State(s.getStateBoard(),alternatePlayer(s.getTurn()));
 	}
@@ -62,9 +60,9 @@ public class Game {
 		cpu = new CPU(cpuType);
 	}
 
-	private Action pick(List<Action> a, State s) {
-		System.err.println("The CPU moves as " + cpu.getCPUType());
-		return cpu.search(a,s);
+	private Action pick(State s) {
+		System.err.println("The CPU moves as " + cpu.cpuType);
+		return cpu.minimax(s,cpu.cpuType);
 //		return cpu.chooseRandomMove(board);	
 	}
 	
