@@ -1,5 +1,4 @@
 
-import java.util.List;
 import java.util.Scanner;
 
 public class PlayGame {
@@ -45,11 +44,11 @@ public class PlayGame {
 		
 		char cpuType = (playerType == 'x') ? 'y' : 'x';	// assigns the cpu to the opposite player type
 		player = new Player(playerType);
-		cpu = new CPU(cpuType);
+		cpu = new CPU(cpuType,playerType);
 	}
 
 	private void move(char type) {
-		if (player.getType() == type) {
+		if (player.getPlayerType() == type) {
 			playerMove();
 		} else {
 			
@@ -58,7 +57,7 @@ public class PlayGame {
 	}
 	
 	private void playerMove() {
-		System.out.println(player.getType()+ ", it is your turn");
+		System.out.println(player.getPlayerType()+ ", it is your turn");
 		while (true){
 			System.out.print("Enter the column for a move: ");
 			int col = scanner.nextInt();
@@ -66,29 +65,25 @@ public class PlayGame {
 			int row = scanner.nextInt();
 			
 			if (board.isSquareEmpty(row,col)) {
-				board.move(row, col, player.getType());		
+				board.move(row, col, player.getPlayerType());		
 				break;
 			}
 			else {
-				System.out.println("That spot is already occupied");
+				System.err.println("That spot is already occupied");
 			}
 		}
 	}
 
-	private void cpuMove() {/*
-		List<int[]> l1 = Board.PossibleMoves();
-		System.out.println(l1.toString());
-		System.out.println("The CPU moves as " + cpu.getType());
-		cpu.chooseMove(board);	
-	}*/
-		System.out.println("The CPU moves as " + cpu.getType());
-		cpu.TestMini(board,cpu,player);
+	private void cpuMove() {
+		System.out.println("The CPU moves as " + cpu.getCPUType());
+		cpu.chooseMinimaxMove(board);
+//		cpu.chooseRandomMove(board);	
 	}
 		
 	
-	static boolean isGameDone() {
+	public boolean isGameDone() {
 		char winner;
-		if (board.isBoardFull()){
+		if (board.isTie()){
 			System.out.println("It's a tie!");
 			return true;
 		} 

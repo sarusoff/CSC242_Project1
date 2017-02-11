@@ -2,26 +2,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-	private static int size;
-	private static char[][] gameboard;
+	private int size;
+	private char[][] gameboard;
 	
 	public Board(int n){
 		size = n;
-		gameboard= new char[n][n];
+		gameboard = new char[n][n];
 	}
 	
-	public static boolean isSquareEmpty(int a, int b){
-		return gameboard[a][b] == Character.MIN_VALUE;
+	public boolean isSquareEmpty(int row, int col){
+		return gameboard[row][col] == Character.MIN_VALUE;
 	}
 	
-	public static void move(int x, int y, char type){
-		gameboard[x][y] = type;	
+	public void move(int row, int col, char type){
+		gameboard[row][col] = type;	
 	}
-	public static void voidMove(int x, int y){
-		gameboard[x][y]=Character.MIN_VALUE;
-		
-	}
-	public static boolean isBoardFull(){
+
+	public boolean isTie(){
 		for (int i=0;i<size;i++){
 			for (int j=0;j<size;j++){
 				if (gameboard[i][j] == Character.MIN_VALUE){
@@ -31,9 +28,9 @@ public class Board {
 		}
 		return true;
 	}
-
+	
 	/* returns x, y, or null, for x winning, y winning, or nobody winning*/
-	public static char wonGame() {
+	public char wonGame() {
 		char p;
 		
 		p = CheckV();
@@ -53,7 +50,7 @@ public class Board {
 		return Character.MIN_VALUE;		
 	}
 
-	public static char CheckAnswer(int x,int y, int x1, int y1){	 
+	public char CheckAnswer(int x,int y, int x1, int y1){	 
 		char p1 = gameboard[x][y];
 		if (p1==Character.MIN_VALUE){
 			return Character.MIN_VALUE;
@@ -68,7 +65,7 @@ public class Board {
 		return p1;
 	}
 	
-	public static char CheckH(){
+	public char CheckH(){
 		for (int i=0; i < size; i++) {
 			char p = CheckAnswer(i,0,0,1);
 			if (p != Character.MIN_VALUE) {
@@ -78,7 +75,7 @@ public class Board {
 		return Character.MIN_VALUE;
 	}
 	
-	public static char CheckV(){
+	public char CheckV(){
 		for(int i = 0; i<size;i++){
 			char p = CheckAnswer(0,i,1,0);
 			if (p!=Character.MIN_VALUE){
@@ -87,7 +84,7 @@ public class Board {
 		}	return Character.MIN_VALUE;
 	}
 	
-	public static char CheckD(){
+	public char CheckD(){
 		char p = CheckAnswer(0, 0, 1, 1);
 		if (p != Character.MIN_VALUE) {
 			return p;
@@ -140,7 +137,7 @@ public class Board {
 		}
 		return min;
 	}
-	public static List<int[]> PossibleMoves(){
+	public List<int[]> getPossibleMoves(){
 		List<int[]> PossibleMoves = new ArrayList<int[]>();
 		for(int p =0; p<3;++p){
 			for(int r=0; r<3;++r){

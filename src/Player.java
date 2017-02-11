@@ -1,18 +1,18 @@
 
 public class Player {
-	private char type;
+	private char playerType;
 
 	public Player(char type){
-		this.type = type;
+		this.playerType = type;
 	}
 
-	public char getType() {
-		return type;
+	public char getPlayerType() {
+		return playerType;
 	}
 	
 	@Override
 	public String toString() {
-		return "Player [you are " + type + "]";
+		return "Player [you are " + playerType + "]";
 	}
 }
 
