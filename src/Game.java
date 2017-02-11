@@ -24,7 +24,7 @@ public class Game {
 			} else { 									// have AI pick move
 				cpu.visited = 0;
 				a = pick(s.applicableActions(),s);		
-				System.out.println("Number of visits in minimax(): " + cpu.visited);
+				System.err.println("Number of visits in minimax(): " + cpu.visited);
 
 			}
 			s = result(s,a);
