@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Game {
@@ -33,9 +32,10 @@ public class Game {
 	// returns the state reached after performing action a in state s
 	private State result(State s, Action a) {
 		System.err.println(s.getTurn() + " chooses the move: ["+a.row+" " + a.col+"]");
-		s.move(a.row, a.col, s.getTurn());
+		s.move(a.row, a.col,a.row1, a.col1, s.getTurn());
 		s.drawBoard();
-		return new State(s.getStateBoard(),alternatePlayer(s.getTurn()));
+		s.drawNineBoard();
+		return new State(s.getStateBoard(),alternatePlayer(s.getTurn()), s.getNineBoard());
 	}
 	
 	public static char alternatePlayer(char s) {
@@ -43,7 +43,7 @@ public class Game {
 	}
 
 	private State getInitialState() {
-		return new State(new char[boardSize][boardSize],'x');
+		return new State(new char[boardSize][boardSize],'x', new char[boardSize][boardSize][boardSize][boardSize]);
 	}
 
 	private void chooseSides() {
@@ -69,13 +69,23 @@ public class Game {
 	private Action playerMove(State s) {
 		System.err.println(player.getPlayerType()+ ", it is your turn");
 		while (true){
+			/*
+			 * takes in last move
+			 * sets board to play on that board
+			 * 
+			 */
+			int BoardLayout=getMoveFromHuman();
+			int col1=BoardLayout%3-1;
+			col1 = (col1 >= 0) ? col1 : col1 + boardSize;
+			int row1 = BoardLayout/ boardSize;	
+			row1 = (col1 == boardSize-1) ? row1-1 : row1;
 			int userInput = getMoveFromHuman();
 			int col = userInput % 3 - 1;
 			col = (col >= 0) ? col : col + boardSize;
 			int row = userInput / boardSize;	
 			row = (col == boardSize-1) ? row-1 : row;
 			if (s.isSquareEmpty(row,col)) {
-				return new Action(row,col);
+				return new Action(row,col,col1,row1);
 			}
 			else {
 				System.err.println("That spot is already occupied");
