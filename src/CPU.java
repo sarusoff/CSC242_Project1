@@ -36,7 +36,7 @@ public class CPU {
 		}
 		else {	/* Not at a terminal state yet */	
 			for (Action a : s.applicableActions()) {
-				s.move(a.row, a.col, player); // make this move on the board
+				s.move(a.row, a.col, a.col1, a.row1,player); // make this move on the board
 				Action currentA = minimax(s,Game.alternatePlayer(player));
 				
 				// If CPU's move, minimize util, if Human's move, maximize util
@@ -44,7 +44,7 @@ public class CPU {
 						|| (player != cpuType && currentA.util > bestA.util)) { 
 					bestA = new Action(a.row,a.col,currentA.util);
 				}
-				s.move(a.row, a.col, Character.MIN_VALUE); // undo the move from the board
+				s.move(a.row, a.col, a.col1, a.row1, Character.MIN_VALUE); // undo the move from the board
 			}			
 		}
 		visited++;
