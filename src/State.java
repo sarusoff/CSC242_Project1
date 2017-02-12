@@ -125,6 +125,34 @@ public class State {
 		}
 		System.err.println("\n");
 	}
+	/*
+	public void drawNineBoard()
+	    {
+	    	for(int i=0;i<3;i++)
+	    	{
+	    		for(int j =0;j<3;j++)
+	    		{
+	    			for(int u=0;u<3;u++)
+	    			{
+	    				System.out.print(" ");
+	    				for(int c=0;c<3;c++)
+	    				{
+	    					if(nineBoard[u][i][c][j]==Character.MIN_VALUE)
+	    						System.out.print(".");
+	    					else
+	    					System.out.print(nineBoard[u][i][c][j]);
+	    					
+	    					System.out.print(" ");
+	    				}
+	    				System.out.print("  ");
+	    			}
+	    			System.out.println();
+	    			if(j!=2)
+	    			System.out.println("-------  -------  -------");
+	    		}
+	    		System.out.println();
+	    	}
+	    }*/
 
 	public List<Action> applicableActions(){
 		List<Action> possibleMoves = new ArrayList<Action>();
