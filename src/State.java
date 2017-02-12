@@ -4,10 +4,12 @@ import java.util.List;
 public class State {
 	private char turn;
 	private char[][] stateBoard;
+	private char[][][][] nineBoard;
 	
-	public State(char[][] stateBoard, char turn) {
+	public State(char[][] stateBoard, char turn, char[][][][] nineBoard) {
 		this.stateBoard = stateBoard;
 		this.turn = turn;
+		this.nineBoard= nineBoard;
 	}
 
 	public char getTurn() {
@@ -18,9 +20,11 @@ public class State {
 		return stateBoard[row][col] == Character.MIN_VALUE;
 	}
 	
-	public void move(int row, int col, char type){
+	public void move(int row, int col, int row1, int col1, char type){
 		stateBoard[row][col] = type;	
+		nineBoard[row1][col1][col][row]=type;
 	}
+	
 
 	public boolean isTie(){
 		for (int i=0;i<stateBoard.length;i++){
@@ -125,7 +129,7 @@ public class State {
 		}
 		System.err.println("\n");
 	}
-	/*
+
 	public void drawNineBoard()
 	    {
 	    	for(int i=0;i<3;i++)
@@ -152,8 +156,11 @@ public class State {
 	    		}
 	    		System.out.println();
 	    	}
-	    }*/
-
+	    }
+	 
+	 
+	
+	
 	public List<Action> applicableActions(){
 		List<Action> possibleMoves = new ArrayList<Action>();
 		for(int p = 0; p < stateBoard.length; ++p){
@@ -168,6 +175,9 @@ public class State {
 
 	public char[][] getStateBoard() {
 		return stateBoard;
+	}
+	public char[][][][] getNineBoard(){
+		return nineBoard;
 	}
 
 	public void setStateBoard(char[][] stateBoard) {
